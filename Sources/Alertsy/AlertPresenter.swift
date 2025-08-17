@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public extension View {
+extension View {
     func withAlertManager(_ alertManager: AlertManager) -> some View {
         self.alert(
             alertManager.configuration?.title ?? "",
@@ -50,11 +50,5 @@ private func buttonRole(for style: AlertAction.Style) -> ButtonRole? {
     case .default: return nil
     case .cancel: return .cancel
     case .destructive: return .destructive
-    }
-}
-
-public extension View {
-    func withAlertManager() -> some View {
-        self.withAlertManager(.shared)
     }
 }

@@ -8,56 +8,13 @@
 import Foundation
 import Observation
 
-public struct AlertConfiguration: Sendable {
-    let title: String
-    let message: String?
-    let primaryAction: AlertAction?
-    let secondaryAction: AlertAction?
-    
-    init(
-        title: String,
-        message: String? = nil,
-        primaryAction: AlertAction? = nil,
-        secondaryAction: AlertAction? = nil
-    ) {
-        self.title = title
-        self.message = message
-        self.primaryAction = primaryAction
-        self.secondaryAction = secondaryAction
-    }
-}
-
-// MARK: - Alert Action
-public struct AlertAction: Sendable {
-    let title: String
-    let style: Style
-    let action: @Sendable () -> Void
-    
-    enum Style: Sendable {
-        case `default`
-        case cancel
-        case destructive
-    }
-    
-    init(
-        title: String,
-        style: Style = .default,
-        action: @escaping @Sendable () -> Void = {}
-    ) {
-        self.title = title
-        self.style = style
-        self.action = action
-    }
-}
-
-// MARK: - Alert Manager
 @MainActor
 @Observable
 public final class AlertManager {
     public private(set) var isPresented = false
     public private(set) var configuration: AlertConfiguration?
     
-    static let shared = AlertManager()
+    public static let shared = AlertManager()
     
     public init() {}
     
@@ -86,7 +43,8 @@ public final class AlertManager {
         configuration = nil
     }
     
-    // Convenience methods
+    /// Shows a simple error alert with a default "OK" button.
+    /// - Parameter message: The error message to display.
     public func showError(_ message: String) {
         show(
             title: "Error",
@@ -95,6 +53,8 @@ public final class AlertManager {
         )
     }
     
+    /// Shows a success alert with a default "OK" button.
+    /// - Parameter message: The success message to display.
     public func showSuccess(_ message: String) {
         show(
             title: "Success",
@@ -103,6 +63,13 @@ public final class AlertManager {
         )
     }
     
+    /// Shows a confirmation alert with customizable titles for confirm and cancel actions.
+    /// - Parameters:
+    ///  - title: The title of the alert.
+    ///  - message: An optional message to display in the alert.
+    ///  - confirmTitle: The title for the confirm action button.
+    ///  - cancelTitle: The title for the cancel action button.
+    ///  - onConfirm: A closure to execute when the confirm action is tapped.
     public func showConfirmation(
         title: String,
         message: String? = nil,
@@ -125,6 +92,13 @@ public final class AlertManager {
         )
     }
     
+    /// Shows a destructive confirmation alert, typically used for actions like deletion.
+    /// - Parameters:
+    ///  - title: The title of the alert.
+    ///  - message: An optional message to display in the alert.
+    ///  - destructiveTitle: The title for the destructive action button (e.g., "Delete").
+    ///  - cancelTitle: The title for the cancel action button.
+    ///  - onConfirm: A closure to execute when the destructive action is confirmed.
     public func showDestructiveConfirmation(
         title: String,
         message: String? = nil,
@@ -147,3 +121,4 @@ public final class AlertManager {
         )
     }
 }
+
