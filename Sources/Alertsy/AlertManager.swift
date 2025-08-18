@@ -23,6 +23,7 @@ public final class AlertManager {
         self.isPresented = true
     }
     
+    /// Show an alert with custom button configurations.
     public func show(
         title: String,
         message: String? = nil,
