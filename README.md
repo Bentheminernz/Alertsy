@@ -135,9 +135,21 @@ Button("Show Alert with Custom Actions") {
 
 ## API Reference
 
-- [`AlertManager`](Sources/Alertsy/AlertManager.swift): Observable singleton for presenting alerts.
-- [`AlertConfiguration`](Sources/Alertsy/AlertModels.swift): Model describing alert content and actions.
-- [`AlertAction`](Sources/Alertsy/AlertModels.swift): Models for `AlertConfiguration` and `AlertAction`.
+- **AlertManager**  
+  The brains behind Alertsy! An observable class you use to show alerts programmatically.  
+  Comes with handy methods like `show`, `showSuccess`, `showError`, and `showConfirmation`.
+
+- **AlertModels**  
+  The core models that power your alerts:
+  - `AlertConfiguration`: Holds the alert’s title, message, and actions.
+  - `AlertAction`: Represents a button in your alert, with style and an action closure.
+
+- **AlertPresenter**  
+  Handles the logic for actually displaying alerts in your SwiftUI views.
+
+- **Alertsy**  
+  The SwiftUI environment integration.  
+  Just use the `.alertsy()` view modifier and `@Environment(\.alertsy)` to get access to the alert manager anywhere in your views.
 
 ## License
 
