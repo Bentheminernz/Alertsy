@@ -12,7 +12,9 @@ extension View {
         self.alert(
             alertManager.configuration?.title ?? "",
             isPresented: Binding(
-                get: { alertManager.isPresented },
+                get: { 
+                    alertManager.isPresented && alertManager.configuration?.presentationStyle == .alert
+                },
                 set: { newValue in
                     if !newValue {
                         alertManager.dismiss()
@@ -35,6 +37,47 @@ extension View {
                 
                 if config.primaryAction == nil && config.secondaryAction == nil {
                     Button("OK", role: .cancel) {}
+                }
+            }
+        } message: {
+            if let message = alertManager.configuration?.message {
+                Text(message)
+            }
+        }
+        .confirmationDialog(
+            alertManager.configuration?.title ?? "",
+            isPresented: Binding(
+                get: { 
+                    alertManager.isPresented && alertManager.configuration?.presentationStyle == .confirmationDialog
+                },
+                set: { newValue in
+                    if !newValue {
+                        alertManager.dismiss()
+                    }
+                }
+            )
+        ) {
+            if let config = alertManager.configuration {
+                // For confirmation dialogs, use additionalActions primarily
+                ForEach(Array(config.additionalActions.enumerated()), id: \.offset) { index, action in
+                    Button(action.title, role: buttonRole(for: action.style)) {
+                        action.action()
+                    }
+                }
+                
+                // Fallback to primary/secondary actions if no additional actions
+                if config.additionalActions.isEmpty {
+                    if let primaryAction = config.primaryAction {
+                        Button(primaryAction.title, role: buttonRole(for: primaryAction.style)) {
+                            primaryAction.action()
+                        }
+                    }
+                    
+                    if let secondaryAction = config.secondaryAction {
+                        Button(secondaryAction.title, role: buttonRole(for: secondaryAction.style)) {
+                            secondaryAction.action()
+                        }
+                    }
                 }
             }
         } message: {

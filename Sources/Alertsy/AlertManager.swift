@@ -33,6 +33,7 @@ public final class AlertManager {
         let config = AlertConfiguration(
             title: title,
             message: message,
+            presentationStyle: .alert,
             primaryAction: primaryAction,
             secondaryAction: secondaryAction
         )
@@ -120,6 +121,83 @@ public final class AlertManager {
                 style: .cancel
             )
         )
+    }
+    
+    // MARK: - Confirmation Dialog Methods
+    
+    /// Shows a confirmation dialog with multiple actions.
+    /// - Parameters:
+    ///  - title: The title of the confirmation dialog.
+    ///  - message: An optional message to display in the confirmation dialog.
+    ///  - actions: An array of actions to display in the confirmation dialog.
+    public func showConfirmationDialog(
+        title: String,
+        message: String? = nil,
+        actions: [AlertAction]
+    ) {
+        let config = AlertConfiguration(
+            title: title,
+            message: message,
+            presentationStyle: .confirmationDialog,
+            additionalActions: actions
+        )
+        show(config)
+    }
+    
+    /// Shows a simple confirmation dialog with confirm and cancel actions.
+    /// - Parameters:
+    ///  - title: The title of the confirmation dialog.
+    ///  - message: An optional message to display in the confirmation dialog.
+    ///  - confirmTitle: The title for the confirm action button.
+    ///  - cancelTitle: The title for the cancel action button.
+    ///  - onConfirm: A closure to execute when the confirm action is tapped.
+    public func showConfirmationDialog(
+        title: String,
+        message: String? = nil,
+        confirmTitle: String = "Confirm",
+        cancelTitle: String = "Cancel",
+        onConfirm: @escaping @Sendable () -> Void
+    ) {
+        let actions = [
+            AlertAction(
+                title: confirmTitle,
+                style: .default,
+                action: onConfirm
+            ),
+            AlertAction(
+                title: cancelTitle,
+                style: .cancel
+            )
+        ]
+        showConfirmationDialog(title: title, message: message, actions: actions)
+    }
+    
+    /// Shows a destructive confirmation dialog, typically used for actions like deletion.
+    /// - Parameters:
+    ///  - title: The title of the confirmation dialog.
+    ///  - message: An optional message to display in the confirmation dialog.
+    ///  - destructiveTitle: The title for the destructive action button (e.g., "Delete").
+    ///  - cancelTitle: The title for the cancel action button.
+    ///  - onConfirm: A closure to execute when the destructive action is confirmed.
+    public func showDestructiveConfirmationDialog(
+        title: String,
+        message: String? = nil,
+        destructiveTitle: String = "Delete",
+        cancelTitle: String = "Cancel",
+        onConfirm: @escaping @Sendable () -> Void
+    ) {
+        let actions = [
+            AlertAction(
+                title: destructiveTitle,
+                style: .destructive,
+                action: onConfirm
+            ),
+            AlertAction(
+                title: cancelTitle,
+                style: .cancel
+            )
+        ]
+        showConfirmationDialog(title: title, message: message, actions: actions)
     }
 }
 

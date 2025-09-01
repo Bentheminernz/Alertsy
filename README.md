@@ -133,11 +133,61 @@ Button("Show Alert with Custom Actions") {
 }
 ```
 
+### Confirmation Dialogs
+Alertsy now supports SwiftUI confirmation dialogs (action sheets) for more flexible action presentation!
+
+```swift
+Button("Show Confirmation Dialog") {
+    alertsy.showConfirmationDialog(
+        title: "Choose Action",
+        message: "What would you like to do?",
+        confirmTitle: "Confirm",
+        cancelTitle: "Cancel",
+        onConfirm: {
+            // Confirmation action goes here!
+        }
+    )
+}
+
+Button("Show Destructive Confirmation Dialog") {
+    alertsy.showDestructiveConfirmationDialog(
+        title: "Delete Item",
+        message: "This action cannot be undone.",
+        destructiveTitle: "Delete",
+        cancelTitle: "Cancel",
+        onConfirm: {
+            // Destructive action goes here!
+        }
+    )
+}
+
+Button("Show Multiple Action Confirmation Dialog") {
+    alertsy.showConfirmationDialog(
+        title: "Choose Option",
+        message: "Select from multiple actions:",
+        actions: [
+            AlertAction(title: "Option 1", style: .default) {
+                // Option 1 action
+            },
+            AlertAction(title: "Option 2", style: .default) {
+                // Option 2 action
+            },
+            AlertAction(title: "Delete", style: .destructive) {
+                // Destructive action
+            },
+            AlertAction(title: "Cancel", style: .cancel) {
+                // Cancel action
+            }
+        ]
+    )
+}
+```
+
 ## API Reference
 
 - **AlertManager**  
-  The brains behind Alertsy! An observable class you use to show alerts programmatically.  
-  Comes with handy methods like `show`, `showSuccess`, `showError`, and `showConfirmation`.
+  The brains behind Alertsy! An observable class you use to show alerts and confirmation dialogs programmatically.  
+  Comes with handy methods like `show`, `showSuccess`, `showError`, `showConfirmation`, `showConfirmationDialog`, and `showDestructiveConfirmationDialog`.
 
 - **AlertModels**  
   The core models that power your alerts:
@@ -145,7 +195,7 @@ Button("Show Alert with Custom Actions") {
   - `AlertAction`: Represents a button in your alert, with style and an action closure.
 
 - **AlertPresenter**  
-  Handles the logic for actually displaying alerts in your SwiftUI views.
+  Handles the logic for actually displaying alerts and confirmation dialogs in your SwiftUI views.
 
 - **Alertsy**  
   The SwiftUI environment integration.  
