@@ -147,3 +147,22 @@ import Testing
     #expect(manager.configuration?.primaryAction?.title == "Yes")
     #expect(manager.configuration?.secondaryAction?.title == "No")
 }
+
+@MainActor
+@Test func alertActionEquality() async throws {
+    let action1 = AlertAction(title: "Test", style: .default)
+    let action2 = AlertAction(title: "Test", style: .default)
+    let action3 = AlertAction(title: "Different", style: .default)
+    let action4 = AlertAction(title: "Test", style: .destructive)
+    
+    #expect(action1 == action2)
+    #expect(action1 != action3)
+    #expect(action1 != action4)
+}
+
+@MainActor
+@Test func presentationStyleEquality() async throws {
+    #expect(AlertPresentationStyle.alert == AlertPresentationStyle.alert)
+    #expect(AlertPresentationStyle.confirmationDialog == AlertPresentationStyle.confirmationDialog)
+    #expect(AlertPresentationStyle.alert != AlertPresentationStyle.confirmationDialog)
+}

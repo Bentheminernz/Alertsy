@@ -26,17 +26,21 @@ extension View {
                 if let primaryAction = config.primaryAction {
                     Button(primaryAction.title, role: buttonRole(for: primaryAction.style)) {
                         primaryAction.action()
+                        alertManager.dismiss()
                     }
                 }
                 
                 if let secondaryAction = config.secondaryAction {
                     Button(secondaryAction.title, role: buttonRole(for: secondaryAction.style)) {
                         secondaryAction.action()
+                        alertManager.dismiss()
                     }
                 }
                 
                 if config.primaryAction == nil && config.secondaryAction == nil {
-                    Button("OK", role: .cancel) {}
+                    Button("OK", role: .cancel) {
+                        alertManager.dismiss()
+                    }
                 }
             }
         } message: {
@@ -62,6 +66,7 @@ extension View {
                 ForEach(Array(config.additionalActions.enumerated()), id: \.offset) { index, action in
                     Button(action.title, role: buttonRole(for: action.style)) {
                         action.action()
+                        alertManager.dismiss()
                     }
                 }
                 
@@ -70,12 +75,14 @@ extension View {
                     if let primaryAction = config.primaryAction {
                         Button(primaryAction.title, role: buttonRole(for: primaryAction.style)) {
                             primaryAction.action()
+                            alertManager.dismiss()
                         }
                     }
                     
                     if let secondaryAction = config.secondaryAction {
                         Button(secondaryAction.title, role: buttonRole(for: secondaryAction.style)) {
                             secondaryAction.action()
+                            alertManager.dismiss()
                         }
                     }
                 }
